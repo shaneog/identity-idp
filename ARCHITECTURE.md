@@ -37,9 +37,6 @@ The current service-level architecture is comprised of Service Providers, the Go
                          user_confirmation POST            /users/confirmation(.:format)                          users/confirmations#create
                      new_user_confirmation GET             /users/confirmation/new(.:format)                      users/confirmations#new
                                            GET             /users/confirmation(.:format)                          users/confirmations#show
-                     user_password_expired GET             /users/password_expired(.:format)                      devise/password_expired#show
-                                           PATCH           /users/password_expired(.:format)                      devise/password_expired#update
-                                           PUT             /users/password_expired(.:format)                      devise/password_expired#update
 resend_code_user_two_factor_authentication GET             /users/two_factor_authentication/resend_code(.:format) devise/two_factor_authentication#resend_code
             user_two_factor_authentication GET             /users/two_factor_authentication(.:format)             devise/two_factor_authentication#show
                                            PATCH           /users/two_factor_authentication(.:format)             devise/two_factor_authentication#update
@@ -56,5 +53,11 @@ resend_code_user_two_factor_authentication GET             /users/two_factor_aut
                              api_saml_auth GET|POST        /api/saml/auth(.:format)                               saml_idp#auth
                          api_saml_metadata GET             /api/saml/metadata(.:format)                           saml_idp#metadata
                       destroy_user_session GET|POST|DELETE /api/saml/logout(.:format)                             saml_idp#logout
+                                 test_saml GET             /test/saml(.:format)                                   test/saml_test#start
+                test_saml_decode_assertion GET             /test/saml/decode_assertion(.:format)                  test/saml_test#start
+                                           POST            /test/saml/decode_assertion(.:format)                  test/saml_test#decode_response
+                          test_saml_logout GET             /test/saml/logout(.:format)                            test/saml_test#logout
+           test_saml_decode_logoutresponse POST            /test/saml/decode_logoutresponse(.:format)             test/saml_test#decode_response
+              test_saml_decode_slo_request POST            /test/saml/decode_slo_request(.:format)                test/saml_test#decode_slo_request
                                       root GET             /                                                      users/sessions#new
 ```
