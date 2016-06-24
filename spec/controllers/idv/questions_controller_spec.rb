@@ -32,7 +32,7 @@ describe Idv::QuestionsController do
       post :create, answer: 'foo', question_key: resolution.questions.first.key
 
       expect(resolution.questions.first.answer).to eq 'foo'
-      expect(response).to redirect_to(idv_questions_path)
+      expect(response).to redirect_to(idv_questions_url)
     end
   end
 

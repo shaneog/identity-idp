@@ -41,7 +41,7 @@ describe Idv::SessionsController do
       post :create, user_attrs
 
       expect(flash).to be_empty
-      expect(response).to redirect_to(idv_questions_path)
+      expect(response).to redirect_to(idv_questions_url)
     end
   end
 end

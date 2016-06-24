@@ -24,7 +24,7 @@ describe "GET '/users/auth/saml/callback'" do
     end
 
     it 'redirects to login page' do
-      expect(response).to redirect_to(new_user_session_path)
+      expect(response).to redirect_to(new_user_session_url)
     end
 
     it 'displays a failure notice' do
@@ -41,7 +41,7 @@ describe "GET '/users/auth/saml/callback'" do
     end
 
     it 'redirects to login page' do
-      expect(response).to redirect_to(new_user_session_path)
+      expect(response).to redirect_to(new_user_session_url)
     end
 
     it 'displays a failure notice' do

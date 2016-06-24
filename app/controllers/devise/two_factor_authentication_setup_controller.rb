@@ -27,7 +27,7 @@ module Devise
       if user_fully_authenticated?
         redirect_to(request.referrer || root_url)
       elsif resource.two_factor_enabled?
-        redirect_to user_two_factor_authentication_path
+        redirect_to user_two_factor_authentication_url
       end
     end
 
@@ -36,7 +36,7 @@ module Devise
 
       resource.send_new_otp
 
-      redirect_to user_two_factor_authentication_path
+      redirect_to user_two_factor_authentication_url
     end
 
     def update_metrics
@@ -47,7 +47,7 @@ module Devise
       if @two_factor_setup_form.mobile_taken?
         SmsSenderExistingMobileJob.perform_later(@two_factor_setup_form.mobile)
 
-        redirect_to user_two_factor_authentication_path
+        redirect_to user_two_factor_authentication_url
       else
         render :index
       end

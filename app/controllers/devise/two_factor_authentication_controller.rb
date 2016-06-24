@@ -11,7 +11,7 @@ class Devise::TwoFactorAuthenticationController < DeviseController
   def new
     current_user.send_new_otp
     flash[:notice] = t('devise.two_factor_authentication.user.new_otp_sent')
-    redirect_to user_two_factor_authentication_path
+    redirect_to user_two_factor_authentication_url
   end
 
   def show

@@ -29,7 +29,7 @@ describe Users::OmniauthCallbacksController, devise: true do
 
       it 'signs the user in and redirects to dashboard' do
         expect(controller.user_signed_in?).to eq true
-        expect(response).to redirect_to(dashboard_index_path)
+        expect(response).to redirect_to(dashboard_index_url)
       end
 
       it 'displays a success notice' do
@@ -45,7 +45,7 @@ describe Users::OmniauthCallbacksController, devise: true do
 
       it 'does not sign the user in and redirects to login page' do
         expect(controller.signed_in?).to eq false
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to redirect_to(new_user_session_url)
       end
 
       it 'displays an error alert' do

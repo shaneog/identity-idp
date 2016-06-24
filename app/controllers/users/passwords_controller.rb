@@ -8,9 +8,7 @@ module Users
       # We are utilizing Pundit's policy for verifying which user can
       # recover passwords. However, we always want to return success.
       flash[:success] = t('upaya.notices.password_reset')
-      redirect_to after_sending_reset_password_instructions_path_for(
-        resource_name
-      )
+      redirect_to after_sending_reset_password_instructions_path_for(resource_name)
     end
 
     def create
@@ -77,13 +75,13 @@ module Users
           t('devise.passwords.token_expired')
         end
 
-      redirect_to new_user_password_path
+      redirect_to new_user_password_url
     end
 
     def handle_successful_password_reset_for(resource)
       flash[:notice] = t('devise.passwords.updated_not_active') if is_flashing_format?
 
-      redirect_to new_user_session_path
+      redirect_to new_user_session_url
 
       EmailNotifier.new(resource).send_password_changed_email
     end
@@ -91,7 +89,7 @@ module Users
     def handle_expired_reset_password_token
       flash[:error] = t('devise.passwords.token_expired') if is_flashing_format?
 
-      redirect_to new_user_password_path
+      redirect_to new_user_password_url
     end
 
     def user_params

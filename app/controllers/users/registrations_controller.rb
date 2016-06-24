@@ -58,7 +58,7 @@ module Users
     def process_redirection(resource)
       resource.send_new_otp unless @update_user_profile_form.mobile_taken?
 
-      redirect_to user_two_factor_authentication_path
+      redirect_to user_two_factor_authentication_url
     end
 
     def process_successful_creation
@@ -69,11 +69,11 @@ module Users
         )
       end
 
-      redirect_to root_path
+      redirect_to root_url
     end
 
     def disable_account_creation
-      redirect_to root_path if AppSetting.registrations_disabled?
+      redirect_to root_url if AppSetting.registrations_disabled?
     end
 
     def user_params

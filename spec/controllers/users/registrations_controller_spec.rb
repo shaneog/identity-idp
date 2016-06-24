@@ -125,7 +125,7 @@ describe Users::RegistrationsController, devise: true do
       expect(flash[:notice]).
         to eq t('devise.registrations.mobile_update_needs_confirmation')
 
-      expect(response).to redirect_to user_two_factor_authentication_path
+      expect(response).to redirect_to(user_two_factor_authentication_url)
 
       expect(user.reload.mobile).to_not eq '+1 (555) 555-5555'
 
@@ -135,7 +135,7 @@ describe Users::RegistrationsController, devise: true do
 
   shared_examples 'updating_profile' do
     it 'redirects to user edit page with flash notice' do
-      expect(response).to redirect_to(edit_user_registration_path)
+      expect(response).to redirect_to(edit_user_registration_url)
 
       expect(flash[:notice]).to eq t('devise.registrations.updated')
     end
@@ -143,7 +143,7 @@ describe Users::RegistrationsController, devise: true do
 
   shared_examples 'updating_mobile' do
     it 'redirects to otp page with success message' do
-      expect(response).to redirect_to(user_two_factor_authentication_path)
+      expect(response).to redirect_to(user_two_factor_authentication_url)
 
       expect(flash[:notice]).
         to eq t('devise.registrations.mobile_update_needs_confirmation')
@@ -154,7 +154,7 @@ describe Users::RegistrationsController, devise: true do
 
   shared_examples 'updating_both_email_and_mobile' do
     it 'redirects to otp page with success message' do
-      expect(response).to redirect_to(user_two_factor_authentication_path)
+      expect(response).to redirect_to(user_two_factor_authentication_url)
 
       expect(flash[:notice]).
         to eq t('devise.registrations.email_and_mobile_need_confirmation')

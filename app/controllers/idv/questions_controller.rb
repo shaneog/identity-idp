@@ -8,14 +8,14 @@ module Idv
       if proofing_session_started?
         render_next_question
       else
-        redirect_to idv_sessions_path
+        redirect_to idv_sessions_url
       end
     end
 
     def create
       idv_resolution.questions[idv_question_number].answer = params.require('answer')
       set_idv_question_number(idv_question_number + 1)
-      redirect_to idv_questions_path
+      redirect_to idv_questions_url
     end
 
     private
@@ -25,7 +25,7 @@ module Idv
         @question_sequence = idv_question_number + 1
         @question = idv_resolution.questions[idv_question_number]
       else
-        redirect_to idv_confirmations_path
+        redirect_to idv_confirmations_url
       end
     end
   end

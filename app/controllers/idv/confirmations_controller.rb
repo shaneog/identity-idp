@@ -9,10 +9,10 @@ module Idv
         if idv_question_number >= idv_resolution.questions.count
           submit_answers
         else
-          redirect_to idv_questions_path
+          redirect_to idv_questions_url
         end
       else
-        redirect_to idv_sessions_path
+        redirect_to idv_sessions_url
       end
     end
 

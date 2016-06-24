@@ -91,7 +91,7 @@ describe Devise::TwoFactorAuthenticationController, devise: true do
       it 'redirects to the dashboard' do
         patch :update, code: subject.current_user.reload.direct_otp
 
-        expect(response).to redirect_to dashboard_index_path
+        expect(response).to redirect_to dashboard_index_url
       end
 
       it 'resets the second_factor_attempts_count' do

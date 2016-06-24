@@ -24,7 +24,7 @@ describe Devise::TwoFactorAuthenticationSetupController, devise: true do
           two_factor_setup_form: { mobile: second_user.mobile }
         )
 
-        expect(response).to redirect_to(user_two_factor_authentication_path)
+        expect(response).to redirect_to(user_two_factor_authentication_url)
         expect(user.reload.mobile).to be_nil
         expect(user.reload.unconfirmed_mobile).to eq second_user.mobile
       end
