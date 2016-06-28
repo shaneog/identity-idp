@@ -33,7 +33,14 @@ PreCommit:
     include: '**/*.slim'
     problem_on_unmodified_line: ignore
 
-CommitMsg:
+# CommitMsg:
+#   ALL:
+#     enabled: false
+
+PrePush:
+  CapitalizedSubject:
+    enabled: true
+    description: 'Check subject capitalization'
   MessageFormat:
     enabled: true
     description: 'Check commit message matches expected pattern'
