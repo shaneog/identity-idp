@@ -42,7 +42,8 @@ gem 'slim-rails'
 gem 'split', require: 'split/dashboard'
 gem 'staccato'
 gem 'twilio-ruby'
-gem 'two_factor_authentication', github: 'Houdini/two_factor_authentication'
+gem 'two_factor_authentication', github: 'amoose/two_factor_authentication',
+                                 branch: 'feature/more_options'
 gem 'uglifier', '>= 1.3.0'
 gem 'whenever', require: false
 gem 'xmlenc', '~> 0.6.4'
@@ -94,7 +95,6 @@ group :test do
   gem 'rack_session_access'
   gem 'rack-test'
   gem 'shoulda-matchers', '~> 2.8', require: false
-  gem 'sms-spec', github: 'monfresh/sms-spec', require: 'sms_spec'
   gem 'test_after_commit'
   gem 'timecop'
   gem 'webmock'

@@ -1,5 +1,6 @@
 module Idv
   class PhoneConfirmationController < ApplicationController
+    include PhoneConfirmationFallback
     include PhoneConfirmationFlow
     include IdvSession
 
@@ -12,10 +13,22 @@ module Idv
       @reenter_phone_number_path = idv_sessions_path
     end
 
+    def confirm
+      if params['code'] == confirmation_code
+        analytics.track_event('User confirmed their phone number')
+        process_valid_code
+      else
+        analytics.track_event('User entered invalid phone confirmation code')
+        process_invalid_code
+      end
+    end
+
     private
 
     def this_phone_confirmation_path
-      idv_phone_confirmation_path
+      idv_phone_confirmation_path(
+        delivery_method: current_otp_delivery_method
+      )
     end
 
     def confirmation_code_session_key

@@ -36,25 +36,32 @@ describe Users::PhoneConfirmationController, devise: true do
           to eq(Devise.direct_otp_length)
       end
 
-      it 'sends confirmation code via SMS' do
-        allow(SmsSenderOtpJob).to receive(:perform_later)
-
-        get :send_code
-
-        expect(SmsSenderOtpJob).to have_received(:perform_later).
-          with(subject.user_session[:phone_confirmation_code], '+1 (555) 555-5555')
-      end
-
       context 'confirmation code already exists in the session' do
-        before { subject.user_session[:phone_confirmation_code] = '1234' }
+        before do
+          subject.user_session[:phone_confirmation_code] = '1234'
+        end
 
         it 're-sends existing code' do
-          allow(SmsSenderOtpJob).to receive(:perform_later)
+          expect(SmsSenderOtpJob).to receive(:perform_later).
+            with('1234', '+1 (555) 555-5555')
 
           get :send_code
+        end
+      end
 
-          expect(SmsSenderOtpJob).
-            to have_received(:perform_later).with('1234', '+1 (555) 555-5555')
+      context 'when choosing SMS OTP delivery' do
+        it 'notifies the user of OTP transmission' do
+          get :send_code, delivery_method: :sms
+
+          expect(flash[:success]).to eq t('notices.send_code.sms')
+        end
+      end
+
+      context 'when choosing voice OTP delivery' do
+        it 'notifies the user of OTP transmission' do
+          get :send_code, delivery_method: :voice
+
+          expect(flash[:success]).to eq t('notices.send_code.voice')
         end
       end
     end
@@ -131,7 +138,7 @@ describe Users::PhoneConfirmationController, devise: true do
       end
     end
 
-    context 'user does not have an existing phone number' do
+    context 'when user does not have an existing phone number' do
       before do
         subject.current_user.phone = nil
         subject.current_user.phone_confirmed_at = nil

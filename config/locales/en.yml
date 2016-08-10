@@ -37,11 +37,21 @@ en:
     sign_in: 'Log in'
     sign_up: 'Sign up'
     my_account: 'My account'
+    phone_confirmation:
+      fallback_to_sms:
+        text: Or, %{link}
+        link_text: send me a text message with the one-time passcode
+      fallback_to_voice:
+        text: Or, %{link}
+        link_text: call me with the one-time passcode
   notices:
     totp_configured: Authenticator app successfully configured
     totp_disabled: Authenticator app disabled
     phone_confirmation_successful: Phone confirmation successful!
     password_reset: 'You will receive an email with instructions on how to reset your password in a few minutes.'
+    send_code:
+      voice: You will be called with your one-time passcode.
+      sms: Your one-time passcode has been sent via text message.
   session_timedout: "For your safety, we signed you out after being idle for %{session_timeout}. Please sign in again."
   session_timeout_warning: "We noticed you haven't been very active, hence we will sign you out in %{time_left_in_session}. Please click '%{continue_text}' to remain signed in."
   titles:
@@ -51,6 +61,7 @@ en:
     edit_info:
       email: Edit your email
       phone: Edit your phone number
+      confirm_phone: Confirm your phone number
     enter_2fa_code: Enter the secure one-time passcode
     account_locked: Account locked
     passwords:
@@ -65,6 +76,7 @@ en:
       start: Set up two-factor authentication
       new: Enter the secure one-time passcode
     two_factor_setup: Two-factor Authentication Setup
+    two_factor_verification: Choose verification method
     users:
       edit: Editing User - %{user}
       index: Manage Users
@@ -81,6 +93,7 @@ en:
       email: Edit your email
       phone: Edit your phone number
     log_in: Log in
+    choose_otp_delivery: Choose delivery method
     passwords:
       change: Change your password
       forgot: Forgot password?
@@ -167,3 +180,9 @@ en:
         finance: Financial information
         phone: What is your phone number?
         review: Review and submit
+
+  voice:
+    otp_confirmation: >
+      Hello! Your login.gov one time passcode is, %{code},
+      again, your passcode is, %{code},  goodbye!
+
