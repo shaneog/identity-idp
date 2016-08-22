@@ -185,4 +185,14 @@ describe ApplicationController do
       end
     end
   end
+
+  describe '#create_user_event' do
+    before { sign_in_as_user }
+
+    it 'creates an Event object' do
+      expect(Event).to receive(:create)
+
+      subject.create_user_event(:account_created)
+    end
+  end
 end
