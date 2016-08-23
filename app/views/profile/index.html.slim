@@ -62,6 +62,7 @@ h2.heading = t('headings.profile.login_info')
           = link_to 'Enable', authenticator_start_url, \
             class: btn_cls
 
+/ Agencies I've logged into
 h2.heading = t('headings.profile.agencies')
 .mt3.mb2
   - if current_user.active_identities.empty?
@@ -75,4 +76,7 @@ h2.heading = t('headings.profile.agencies')
             .h3.truncate = i.display_name
           .sm-col.sm-col-4.px1
             .h6.bold = 'Last login'
-            .h5 = i.last_authenticated_at.to_s(:date_pretty)
+            - if i.last_authenticated_at
+              .h5 = i.last_authenticated_at.to_s(:date_pretty)
+            - else
+              .h5 Unknown

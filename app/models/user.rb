@@ -50,10 +50,19 @@ class User < ActiveRecord::Base
     active_identities[-1] || NullIdentity.new
   end
 
+  # Active identities have currently active sessions
   def active_identities
     identities.where(
-      'last_authenticated_at IS NOT ?',
-      nil
+      'session_uuid IS NOT ?', nil
+    ).order(
+      last_authenticated_at: :asc
+    ) || []
+  end
+
+  # Every identities that has ever been authenticated
+  def authenticated_identities
+    identities.where(
+      'last_authenticated_at IS NOT ?', nil
     ).order(
       last_authenticated_at: :asc
     ) || []
