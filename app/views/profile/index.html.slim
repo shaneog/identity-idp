@@ -32,16 +32,20 @@ h2.heading = t('headings.profile.login_info')
           = link_to 'Enable', authenticator_start_url, \
             class: btn_cls
 
+/ Agencies I've logged into
 h2.heading
   | #{t('headings.profile.agencies')} #{tooltip(t('tooltips.placeholder'))}
-- if current_user.active_identities.empty?
+- if current_user.authenticated_identities.empty?
   p.mt2.mb5.italic You haven't logged into any agencies yet.
 else
-  - current_user.active_identities.each do |i|
+  - current_user.authenticated_identities.each do |i|
     .py2.border-top
       .clearfix.mxn1
         .sm-col.sm-col-8.px1
           .h3.truncate = i.display_name
         .sm-col.sm-col-4.px1
           .h6.bold = 'Last login'
-          .h5 = i.last_authenticated_at.to_s(:date_pretty)
+          - if i.last_authenticated_at
+            .h5 = i.last_authenticated_at.to_s(:date_pretty)
+          - else
+            .h5 Unknown
