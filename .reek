@@ -20,8 +20,6 @@ NilCheck:
     - user_not_found?
 TooManyStatements:
   max_statements: 6
-  exclude:
-    - Users::PhoneConfirmationController
 TooManyMethods:
   exclude:
     - Devise::TwoFactorAuthenticationController

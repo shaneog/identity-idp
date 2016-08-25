@@ -20,10 +20,8 @@ module Users
 
     def confirm
       if params['code'] == confirmation_code
-        analytics.track_event('User confirmed their phone number')
         process_valid_code
       else
-        analytics.track_event('User entered invalid phone confirmation code')
         process_invalid_code
       end
     end
@@ -40,33 +38,37 @@ module Users
     private
 
     def process_invalid_code
+      analytics.track_event('User entered invalid phone confirmation code')
       flash[:error] = t('errors.invalid_confirmation_code')
       redirect_to phone_confirmation_path
     end
 
     def process_valid_code
-      assign_phone
+      old_phone = current_user.phone
+      current_user.update(phone: unconfirmed_phone, phone_confirmed_at: Time.current)
       clear_session_data
 
       flash[:success] = t('notices.phone_confirmation_successful')
-      if @updating_existing_number
-        create_user_event(:phone_changed)
-        redirect_to profile_path
+      if old_phone.present?
+        after_phone_number_change(old_phone)
       else
-        create_user_event(:phone_confirmed)
-        redirect_to after_sign_in_path_for(current_user)
+        after_initial_confirmation
       end
     end
 
-    def assign_phone
-      old_phone = current_user.phone
-      @updating_existing_number = old_phone.present?
-      if @updating_existing_number
-        analytics.track_event('User changed and confirmed their phone number')
-        SmsSenderNumberChangeJob.perform_later(old_phone)
-      end
-      current_user.update(phone: unconfirmed_phone,
-                          phone_confirmed_at: Time.current)
+    def after_phone_number_change(old_phone)
+      analytics.track_event('User updated their phone number')
+      create_user_event(:phone_changed)
+      SmsSenderNumberChangeJob.perform_later(old_phone)
+
+      redirect_to profile_path
+    end
+
+    def after_initial_confirmation
+      analytics.track_event('User confirmed their phone number')
+      create_user_event(:phone_confirmed)
+
+      redirect_to after_sign_in_path_for(current_user)
     end
 
     def check_for_unconfirmed_phone

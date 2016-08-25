@@ -93,11 +93,8 @@ describe Users::PhoneConfirmationController, devise: true do
           expect(flash[:success]).to eq t('notices.phone_confirmation_successful')
         end
 
-        it 'tracks the update and confirmation event' do
-          expect(@analytics).to have_received(:track_event).
-            with('User confirmed their phone number')
-          expect(@analytics).to have_received(:track_event).
-            with('User changed and confirmed their phone number')
+        it 'tracks the update event' do
+          expect(@analytics).to have_received(:track_event).with('User updated their phone number')
 
           expect(subject).to have_received(:create_user_event).with(:phone_changed)
           expect(subject).to have_received(:create_user_event).exactly(:once)
