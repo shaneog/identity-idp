@@ -151,11 +151,18 @@ describe User do
   context 'when identities are present' do
     let(:user) { create(:user, :signed_up) }
     let(:active_identity) do
-      Identity.create(service_provider: 'entity_id', last_authenticated_at: Time.current - 1.hour)
+      Identity.create(service_provider: 'entity_id', session_uuid: 'uuid-uuid-uuid-uuid')
     end
     let(:inactive_identity) do
+      Identity.create(service_provider: 'entity_id', session_uuid: nil)
+    end
+    let(:authenticated_identity) do
+      Identity.create(service_provider: 'entity_id', last_authenticated_at: Time.current - 1.hour)
+    end
+    let(:never_authenticated_identity) do
       Identity.create(service_provider: 'entity_id', last_authenticated_at: nil)
     end
+
 
     describe '#active_identities' do
       before { user.identities << [active_identity, inactive_identity] }
@@ -164,19 +171,29 @@ describe User do
         expect(user.active_identities.size).to eq(1)
       end
     end
+
+    describe '#authenticated_identities' do
+      before { user.identities << [authenticated_identity, never_authenticated_identity] }
+
+      it 'only returns identities that have been used' do
+        expect(user.authenticated_identities.size).to eq(1)
+      end
+    end
   end
 
-  context 'when user has multiple identities' do
+  context 'when user has multiple active session identities' do
     let(:user) { create(:user, :signed_up) }
 
     before do
       user.identities << Identity.create(
         service_provider: 'first',
-        last_authenticated_at: Time.current - 1.hour
+        last_authenticated_at: Time.current - 1.hour,
+        session_uuid: 'uuid-1'
       )
       user.identities << Identity.create(
         service_provider: 'last',
-        last_authenticated_at: Time.current
+        last_authenticated_at: Time.current,
+        session_uuid: 'uuid-5'
       )
     end
 
