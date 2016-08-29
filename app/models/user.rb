@@ -52,20 +52,16 @@ class User < ActiveRecord::Base
 
   # Active identities have currently active sessions
   def active_identities
-    identities.where(
-      'session_uuid IS NOT ?', nil
-    ).order(
-      last_authenticated_at: :asc
-    ) || []
+    identities
+    .where.not(session_uuid: nil)
+    .order(last_authenticated_at: :asc) || []
   end
 
   # Every identities that has ever been authenticated
   def authenticated_identities
-    identities.where(
-      'last_authenticated_at IS NOT ?', nil
-    ).order(
-      last_authenticated_at: :asc
-    ) || []
+    identities
+    .where.not(last_authenticated_at: nil)
+    .order(last_authenticated_at: :asc) || []
   end
 
   def multiple_identities?
