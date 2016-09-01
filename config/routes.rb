@@ -34,7 +34,7 @@ Rails.application.routes.draw do
     get '/otp/new' => 'devise/two_factor_authentication#new'
   end
 
-  unless Figaro.env.domain_name.include?('superb.legit.domain.gov')
+  unless Rails.env.production?
     # Testing routes, should not be available in live production
     namespace :test do
       # Assertion granting test start + return.
