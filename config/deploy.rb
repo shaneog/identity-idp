@@ -13,7 +13,6 @@ set :linked_files, %w(certs/saml.crt
                       config/database.yml
                       keys/saml.key.enc)
 set :linked_dirs, %w(bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system)
-set :rails_env, :production
 set :repo_url, 'https://github.com/18F/identity-idp.git'
 set :sidekiq_options, ''
 set :sidekiq_queue, [:mailers, :sms, :analytics]

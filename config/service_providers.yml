@@ -65,7 +65,7 @@ development:
       sp_initiated_login_url: 'http://localhost:3001/users/auth/saml'
       cert: 'identity_dashboard_cert'
 
-production:
+staging:
   valid_hosts:
     'https://upaya-dev.18f.gov':
       metadata_url: 'https://upaya-dev.18f.gov/api/saml/metadata'
@@ -142,13 +142,15 @@ production:
       sp_initiated_login_url: 'https://dashboard.dev.login.gov/users/auth/saml'
       cert: 'identity_dashboard_cert'
 
-superb.legit.domain.gov:
+production:
   valid_hosts:
-    'urn:govheroku:serviceprovider':
-      acs_url: 'https://vets.gov/users/auth/saml/callback'
-      assertion_consumer_logout_service_url: 'https://vets.gov/api/saml/logout'
-      cert: 'saml_test_sp'
-      agency: 'test_agency'
+    'urn:gov:gsa:SAML:2.0.profiles:sp:sso:rails':
+      metadata_url: 'https://sp.login.gov/saml/metadata'
+      acs_url: 'https://sp.login.gov/auth/saml/callback'
+      assertion_consumer_logout_service_url: 'https://sp.login.gov/auth/saml/logout'
+      sp_initiated_login_url: 'https://sp.login.gov/login'
+      cert: 'sp_rails_demo'
+      agency: 'GSA'
+      friendly_name: 'Login.gov Demo Service Provider'
       attribute_bundle:
         - email
-        - phone

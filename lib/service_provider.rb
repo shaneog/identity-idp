@@ -84,14 +84,8 @@ class ServiceProvider
   private
 
   def config
-    @config ||= YAML.load_file("#{Rails.root}/config/service_providers.yml")
-
-    if Figaro.env.domain_name == 'superb.legit.domain.gov'
-      @config.merge!(@config.fetch('superb.legit.domain.gov', {}))
-    else
-      @config.merge!(@config.fetch(Rails.env, {}))
-    end
-
+    @yaml ||= YAML.load_file("#{Rails.root}/config/service_providers.yml")
+    @config ||= @yaml.fetch(Rails.env, {})
     @config.symbolize_keys!
   end
 

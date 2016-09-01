@@ -62,9 +62,9 @@ describe ServiceProvider do
       it_behaves_like 'invalid service provider'
     end
 
-    context 'when the app is running on a superb legit domain' do
+    context 'when the app is running in production' do
       before do
-        allow(Figaro.env).to receive(:domain_name).and_return('superb.legit.domain.gov')
+        allow(Rails).to receive(:env).and_return('production')
       end
 
       context 'when the host is valid in the current env but not on the legit domain' do
@@ -75,22 +75,23 @@ describe ServiceProvider do
 
       context 'when the host is valid on the legit domain' do
         it 'uses the config from the domain_name key' do
-          service_provider = ServiceProvider.new('urn:govheroku:serviceprovider')
-          acls_url = 'https://vets.gov/api/saml/logout'
+          service_provider = ServiceProvider.new('urn:gov:gsa:SAML:2.0.profiles:sp:sso:rails')
+          demo_cert = File.read("#{Rails.root}/certs/sp/sp_rails_demo.crt")
+          demo_fingerprint = Fingerprinter.fingerprint_cert(demo_cert)
 
           attributes = {
-            acs_url: 'https://vets.gov/users/auth/saml/callback',
-            assertion_consumer_logout_service_url: acls_url,
+            acs_url: 'https://sp.login.gov/auth/saml/callback',
+            assertion_consumer_logout_service_url: 'https://sp.login.gov/auth/saml/logout',
             block_encryption: 'aes256-cbc',
-            cert: File.read("#{Rails.root}/certs/sp/saml_test_sp.crt"),
+            cert: demo_cert,
             double_quote_xml_attribute_values: true,
-            fingerprint: sp_fingerprint,
+            fingerprint: demo_fingerprint,
             key_transport: 'rsa-oaep-mgf1p',
-            metadata_url: nil,
-            sp_initiated_login_url: nil,
-            agency: 'test_agency',
-            friendly_name: nil,
-            attribute_bundle: %w(email phone)
+            metadata_url: 'https://sp.login.gov/saml/metadata',
+            sp_initiated_login_url: 'https://sp.login.gov/login',
+            agency: 'GSA',
+            friendly_name: 'Login.gov Demo Service Provider',
+            attribute_bundle: %w(email)
           }
 
           expect(service_provider.metadata).to eq attributes
