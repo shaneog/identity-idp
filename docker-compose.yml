@@ -1,9 +1,13 @@
 version: '2'
 services:
-  web:
+  app:
     build: .
+    command: "true"
     volumes:
       - .:/upaya
+  web:
+    extends:
+      service: app
     ports:
       - "3000:3000"
     environment:
@@ -14,7 +18,8 @@ services:
       - redis
       - worker
   worker:
-    build: .
+    extends:
+      service: app
     command: "bundle exec sidekiq -q sms -q voice -q mailers -q analytics"
     environment:
       REDIS_URL: "redis://redis"
